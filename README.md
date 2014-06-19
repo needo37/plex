@@ -2,7 +2,7 @@ This is a Dockerfile setup for plex with plexpass - http://plex.tv/
 
 To run:
 
-docker run -d --name="plex" -v /path/to/plex/config:/config -v /path/to/video/files:/data -p 32400:32400 needo/plex
+docker run -d --net="host" --name="plex" -v /path/to/plex/config:/config -v /path/to/video/files:/data -p 32400:32400 needo/plex
 
 After install go to:
 
