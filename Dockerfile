@@ -4,6 +4,9 @@ MAINTAINER needo <needo@superhero.org>
 #Thanks to Tim Haak <tim@haak.co.uk>
 ENV DEBIAN_FRONTEND noninteractive
 
+# Fix timezone
+RUN ln -sf /usr/share/zoneinfo/CST6CDT /etc/localtime
+
 RUN apt-get -q update
 RUN apt-get install -qy curl
 
