@@ -12,7 +12,7 @@ sleep 1
 avahi-daemon -D
 sleep 1
 
-su -c "HOME=/config start_pms &" plex
+su -c "HOME=/config /usr/sbin/start_pms &" plex
 sleep 5
 
 tail -f /config/Library/Application\ Support/Plex\ Media\ Server/Logs/**/*.log
