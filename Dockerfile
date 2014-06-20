@@ -19,6 +19,7 @@ RUN apt-get install -qy plexmediaserver
 
 # Fix a Debianism of plex's uid being 101
 RUN usermod -u 999 plex
+RUN usermod -g 100 plex
 
 VOLUME /config
 VOLUME /data
