@@ -17,6 +17,9 @@ RUN curl http://shell.ninthgate.se/packages/shell-ninthgate-se-keyring.key | apt
 RUN apt-get -q update
 RUN apt-get install -qy plexmediaserver
 
+# Fix a Debianism of plex's uid being 101
+RUN usermod -u 999 plex
+
 VOLUME /config
 VOLUME /data
 
