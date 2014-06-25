@@ -1,18 +1,22 @@
-FROM debian:jessie
+FROM phusion/baseimage:0.9.11
 MAINTAINER needo <needo@superhero.org>
 #Based on the work of Eric Schultz <eric@startuperic.com>
 #Thanks to Tim Haak <tim@haak.co.uk>
 ENV DEBIAN_FRONTEND noninteractive
 
+# Set correct environment variables
+ENV HOME /root
+
+# Use baseimage-docker's init system
+CMD ["/sbin/my_init"]
+
+# Install Plex
 RUN apt-get -q update
-RUN apt-get install -qy curl
-
-RUN echo "deb http://shell.ninthgate.se/packages/debian plexpass main" > /etc/apt/sources.list.d/plexmediaserver.list
-
-RUN curl http://shell.ninthgate.se/packages/shell-ninthgate-se-keyring.key | apt-key add -
-
-RUN apt-get -q update
-RUN apt-get install -qy plexmediaserver
+RUN apt-get install -qy gdebi-core wget
+RUN wget -P /tmp http://downloads.plexapp.com/plex-media-server/0.9.9.12.504-3e7f93c/plexmediaserver_0.9.9.12.504-3e7f93c_amd64.deb
+RUN gdebi -n /tmp/plexmediaserver_0.9.9.12.504-3e7f93c_amd64.deb
+RUN echo plexmediaserver_0.9.9.12.504-3e7f93c_amd64.deb | awk -F_ '{print $2}' > /tmp/version
+RUN rm -f /tmp/plexmediaserver_0.9.9.12.504-3e7f93c_amd64.deb
 
 # Fix a Debianism of plex's uid being 101
 RUN usermod -u 999 plex
@@ -21,8 +25,17 @@ RUN usermod -g 100 plex
 VOLUME /config
 VOLUME /data
 
-ADD ./start.sh /start.sh
-
 EXPOSE 32400
 
-CMD ["/bin/bash", "/start.sh"]
+# Define /config in the configuration file not using environment variables
+ADD plexmediaserver /etc/default/plexmediaserver
+
+# Add firstrun.sh to execute during container startup
+RUN mkdir -p /etc/my_init.d
+ADD firstrun.sh /etc/my_init.d/firstrun.sh
+RUN chmod +x /etc/my_init.d/firstrun.sh
+
+# Add Plex to runit
+RUN mkdir /etc/service/plex
+ADD plex.sh /etc/service/plex/run
+RUN chmod +x /etc/service/plex/run
