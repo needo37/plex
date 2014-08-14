@@ -10,6 +10,9 @@ ENV HOME /root
 # Use baseimage-docker's init system
 CMD ["/sbin/my_init"]
 
+# chfn workaround - Known issue within Dockers
+RUN ln -s -f /bin/true /usr/bin/chfn
+
 # Install Plex
 RUN apt-get -q update
 RUN apt-get install -qy gdebi-core wget
