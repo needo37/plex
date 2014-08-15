@@ -14,6 +14,10 @@ sleep 1
 
 INSTALLED=`dpkg-query -W -f='${Version}' plexmediaserver`
 
+# Grab the latest Plexpass verion of Plex from the plex.tv site
+
+LATEST=`wget -q --no-check-certificate -O - "https://plex.tv/downloads"| grep -o '[^"'"'"']*plexmediaserver_.*amd64.deb'| cut -d "/" -f 5`
+
 if [ -z "$VERSION" ]; then
   echo "Version not specified."
   exit 0
@@ -21,6 +25,12 @@ fi
 
 if [ "$VERSION" = "$INSTALLED" ]; then
   echo "Version not changed"
+elif ["$VERSION" = "Latest"]; then
+  mv /etc/default/plexmediaserver /tmp/
+  apt-get remove --purge -y plexmediaserver
+  wget -P /tmp "http://downloads.plexapp.com/plex-media-server/$LATEST/plexmediaserver_${LATEST}_amd64.deb"
+  gdebi -n /tmp/plexmediaserver_${LATEST}_amd64.deb
+  mv /tmp/plexmediaserver /etc/default/
 else
   mv /etc/default/plexmediaserver /tmp/
   apt-get remove --purge -y plexmediaserver
