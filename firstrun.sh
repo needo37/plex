@@ -24,7 +24,7 @@ if [ "$VERSION" = "$INSTALLED" ]; then
 else
   mv /etc/default/plexmediaserver /tmp/
   apt-get remove --purge -y plexmediaserver
-  curl -sL "http://downloads.plexapp.com/plex-media-server/$VERSION/plexmediaserver_${VERSION}_amd64.deb" > /tmp/plexmediaserver.deb
-  gdebi -n /tmp/plexmediaserver.deb
+  wget -P /tmp "http://downloads.plexapp.com/plex-media-server/$VERSION/plexmediaserver_${VERSION}_amd64.deb"
+  gdebi -n /tmp/plexmediaserver_${VERSION}_amd64.deb
   mv /tmp/plexmediaserver /etc/default/
 fi

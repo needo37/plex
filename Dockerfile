@@ -14,13 +14,12 @@ CMD ["/sbin/my_init"]
 RUN ln -s -f /bin/true /usr/bin/chfn
 
 # Install Plex
-RUN apt-get -q update \
-    && apt-get install -qy gdebi-core \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ADD install_plex.sh /
-RUN bash /install_plex.sh
+RUN apt-get -q update
+RUN apt-get install -qy gdebi-core wget
+RUN wget -P /tmp http://downloads.plexapp.com/plex-media-server/0.9.11.0.672-bf09ab7/plexmediaserver_0.9.11.0.672-bf09ab7_amd64.deb
+RUN gdebi -n /tmp/plexmediaserver_0.9.11.0.672-bf09ab7_amd64.deb
+RUN echo plexmediaserver_0.9.11.0.672-bf09ab7_amd64.deb | awk -F_ '{print $2}' > /tmp/version
+RUN rm -f /tmp/plexmediaserver_0.9.11.0.672-bf09ab7_amd64.deb
 
 # Fix a Debianism of plex's uid being 101
 RUN usermod -u 999 plex
