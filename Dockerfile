@@ -16,7 +16,7 @@ RUN ln -s -f /bin/true /usr/bin/chfn
 # Install Plex
 RUN apt-get -q update
 RUN apt-get install -qy gdebi-core wget
-RUN wget -P /tmp http://downloads.plexapp.com/plex-media-server/0.9.11.6.800-831ffad/plexmediaserver_0.9.11.6.800-831ffad_amd64.deb
+RUN wget -P /tmp http://nightlies.plexapp.com/directdl/plex-media-server/dist-ninja/0.9.11.6.800-831ffad/plexmediaserver_0.9.11.6.800-831ffad_amd64.deb
 RUN gdebi -n /tmp/plexmediaserver_0.9.11.6.800-831ffad_amd64.deb
 RUN echo plexmediaserver_0.9.11.6.800-831ffad_amd64.deb | awk -F_ '{print $2}' > /tmp/version
 RUN rm -f /tmp/plexmediaserver_0.9.11.6.800-831ffad_amd64.deb
