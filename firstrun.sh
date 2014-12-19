@@ -1,14 +1,5 @@
 #!/bin/bash
 
-mkdir -p /var/run/dbus
-chown messagebus:messagebus /var/run/dbus
-dbus-uuidgen --ensure
-dbus-daemon --system --fork
-sleep 1
-
-avahi-daemon -D
-sleep 1
-
 # Check to see what version of Plex is installed vs what is being requested. If requested version is different
 # install that one 
 
