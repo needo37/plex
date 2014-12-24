@@ -6,9 +6,9 @@
 INSTALLED=`dpkg-query -W -f='${Version}' plexmediaserver`
 
 if [ -z "$VERSION" ]; then
-    PLEX_URL=$(curl -sL http://plex.baconopolis.net/latest.php)
+    PLEX_URL=$(curl -sL http://plex.baconopolis.net/latest.php | sed -nr 's#(http.+?/plexmediaserver_.+?_amd64\.deb)#\1#p')
 else
-    PLEX_URL=$(curl -sL http://plex.baconopolis.net/version.php?version=${VERSION})
+    PLEX_URL=$(curl -sL http://plex.baconopolis.net/version.php?version=${VERSION} | sed -nr 's#(http.+?/plexmediaserver_.+?_amd64\.deb)#\1#p')
 fi
 PLEX_VERSION=$(echo $PLEX_URL | awk -F_ '{print $2}')
 
