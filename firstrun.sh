@@ -25,4 +25,5 @@ else
     wget -P /tmp "${PLEX_URL}"
     gdebi -n /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
     mv /tmp/plexmediaserver /etc/default/
+    rm -f /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
 fi
