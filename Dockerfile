@@ -16,8 +16,8 @@ RUN ln -s -f /bin/true /usr/bin/chfn
 # Install Plex
 RUN apt-get -q update
 RUN apt-get install -qy gdebi-core wget
-ADD install_plex.sh /
-RUN bash /install_plex.sh
+ADD installplex.sh /
+RUN bash /installplex.sh
 
 # Fix a Debianism of plex's uid being 101
 RUN usermod -u 999 plex
