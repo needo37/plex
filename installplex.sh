@@ -14,7 +14,7 @@ fi
 
 echo Installing Plex Media Server $PLEX_VERSION
 
-wget -q -P /tmp "$PLEX_URL" -O plexmediaserver_${PLEX_VERSION}_amd64.deb
+wget -q "$PLEX_URL" -O /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
 if [ $? -eq 0 ]; then
     gdebi -n /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
     rm -f /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
