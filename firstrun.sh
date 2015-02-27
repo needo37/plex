@@ -20,10 +20,16 @@ if [ "$PLEX_VERSION" = "$INSTALLED" ]; then
     echo "Version not changed - $PLEX_VERSION"
 else
     echo "Updating to $PLEX_VERSION from $INSTALLED"
-    mv /etc/default/plexmediaserver /tmp/
-    apt-get remove --purge -y plexmediaserver
-    wget -P /tmp "${PLEX_URL}"
-    gdebi -n /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
-    mv /tmp/plexmediaserver /etc/default/
-    rm -f /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
+    # Don't uninstall the old version of plex if the download fails
+    wget -q -P /tmp "${PLEX_URL}" -O plexmediaserver_${PLEX_VERSION}_amd64.deb
+    if [ $? -eq 0 ]; then
+        mv /etc/default/plexmediaserver /tmp/
+        apt-get remove --purge -y plexmediaserver
+        gdebi -n /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
+        mv /tmp/plexmediaserver /etc/default/
+        rm -f /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
+        echo $PLEX_VERSION > /tmp/version
+    else
+        echo "Download failed, please try again later"
+    fi
 fi

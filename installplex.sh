@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ -z "$VERSION" ]; then
     PLEX_URL=$(curl -sL http://plex.baconopolis.net/latest.php | sed -nr 's#(http.+?/plexmediaserver_.+?_amd64\.deb)#\1#p')
 else
@@ -13,7 +14,11 @@ fi
 
 echo Installing Plex Media Server $PLEX_VERSION
 
-wget -P /tmp "$PLEX_URL"
-gdebi -n /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
-rm -f /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
-echo $PLEX_VERSION > /tmp/version
+wget -q -P /tmp "$PLEX_URL" -O plexmediaserver_${PLEX_VERSION}_amd64.deb
+if [ $? -eq 0 ]; then
+    gdebi -n /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
+    rm -f /tmp/plexmediaserver_${PLEX_VERSION}_amd64.deb
+    echo $PLEX_VERSION > /tmp/version
+else
+    echo "ERROR! Problem downloading Plex"
+fi
