@@ -1,5 +1,5 @@
 plex:
-  image: scottcase/plex
+  build: .
   net: host
   volumes:
   - /etc/localtime:/etc/localtime:ro
