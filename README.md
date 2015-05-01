@@ -20,3 +20,12 @@ If you exclude the VERSION tag it'll autoupdate to the latest version whenever y
 After install go to:
 
 http://server:32400/web/index.html#!/dashboard and login with your myPlex credentials
+
+Docker compose
+--------------
+
+To run plex with [docker-compose](https://docs.docker.com/compose/) copy [docker-compose.yml](docker-compose.yml) on your docker host and run
+
+```
+docker-compose up -d
+```
