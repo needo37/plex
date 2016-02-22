@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.15
+FROM phusion/baseimage:0.9.18
 MAINTAINER needo <needo@superhero.org>
 #Based on the work of Eric Schultz <eric@startuperic.com>
 #Thanks to Tim Haak <tim@haak.co.uk>
